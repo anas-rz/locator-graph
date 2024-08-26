@@ -47,4 +47,4 @@ Please checkout [this](./locator_graph) to explore experimentation.
 
 # Training
 
-Our model has been trained for three tasks: `Binary Classification`, `Node Detection`, `Feature Inspection`.
+Our model has been trained for three tasks: `[Binary Classification](./locator_graph/binary_notebook.ipynb)`, `[Node Detection](./locator_graph//node_classification.ipynb)`, `[Feature Inspection](./locator_graph/feature_inspector.ipynb)`.
