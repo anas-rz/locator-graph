@@ -80,3 +80,9 @@ To explore this component, please check out the corresponding materials and expe
 ## Citation
 If you use this tool in your research, please cite our work as follows:
 
+```
+@article{YourLastName2024LocatorGraph,
+  title={LocatorGraph: Fault Localization in Sequence-Based Models using Graph Neural Networks},
+  author={YourFirstName, YourLastName and CollaboratorFirstName, CollaboratorLastName and OtherAuthorFirstName, OtherAuthorLastName},
+}
+```
