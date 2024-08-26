@@ -32,3 +32,7 @@ locate bug-causing features in the nodes with an accuracy of
 74.32% and F1 score 73.21%. We also provide details of the
 improvement observed in the models after fixing bugs using
 _LocatorGraph_ based approach.
+
+# Setup
+
+# Training
