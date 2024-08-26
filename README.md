@@ -33,6 +33,10 @@ locate bug-causing features in the nodes with an accuracy of
 improvement observed in the models after fixing bugs using
 _LocatorGraph_ based approach.
 
+# Experimental Details
+
+We use `sklearn`, `transformers`, `keras`, `torch-geometric` to perform experiments.
+
 # Setup
 
 Experiments have been performed in notebooks at Google Colab and the High-Performance Cluster at Oakland University.
