@@ -73,7 +73,7 @@ In this final task, the goal is to locate bug-causing features within the identi
 - [Feature Inspection Notebook](./locator_graph/feature_inspector.ipynb)
 
 ## Fault Injector
-Based on **DeepCrime**, we developed a **Fault Injector** specifically designed for Sequence-Based Models. This tool enables the introduction of bugs into SBMs to test the effectiveness of fault localization techniques.
+Based on [**DeepCrime**](https://github.com/dlfaults/deepcrime), we developed a **Fault Injector** specifically designed for Sequence-Based Models. This tool enables the introduction of bugs into SBMs to test the effectiveness of fault localization techniques.
 
 To explore this component, please check out the corresponding materials and experiments.
 
