@@ -83,6 +83,9 @@ If you use this tool in your research, please cite our work as follows:
 ```
 @article{YourLastName2024LocatorGraph,
   title={LocatorGraph: Fault Localization in Sequence-Based Models using Graph Neural Networks},
-  author={YourFirstName, YourLastName and CollaboratorFirstName, CollaboratorLastName and OtherAuthorFirstName, OtherAuthorLastName},
+  author={Muhammad Anas, Raza and Mohammed, Wardat},
 }
 ```
+## License
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more details.
+
