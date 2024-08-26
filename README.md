@@ -77,15 +77,6 @@ Based on [**DeepCrime**](https://github.com/dlfaults/deepcrime), we developed a 
 
 To explore this component, please check out the corresponding materials and experiments.
 
-## Citation
-If you use this tool in your research, please cite our work as follows:
-
-```
-@article{YourLastName2024LocatorGraph,
-  title={LocatorGraph: Fault Localization in Sequence-Based Models using Graph Neural Networks},
-  author={Muhammad Anas, Raza and Mohammed, Wardat},
-}
-```
 ## License
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more details.
 
