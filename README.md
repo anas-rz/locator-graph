@@ -35,4 +35,10 @@ _LocatorGraph_ based approach.
 
 # Setup
 
+Experiments have been performed in notebooks at Google Colab and the High-Performance Cluster at Oakland University.
+
+Please checkout [this](./locatorgraph) to explore experimentation.
+
+
+
 # Training
