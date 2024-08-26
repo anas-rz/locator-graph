@@ -51,4 +51,4 @@ Our model has been trained for three tasks: `[Binary Classification](./locator_g
 
 # Fault Injector
 
-Based on DeepCrime, we develop Fault Injector for Sequence-Based Models.
+Based on DeepCrime, we develop Fault Injector for Sequence-Based Models. Please checkout [this](./locator_graph/fault_injector/) to explore experimentation.
