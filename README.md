@@ -46,3 +46,5 @@ Please checkout [this](./locator_graph) to explore experimentation.
 
 
 # Training
+
+Our model has been trained for three tasks: `Binary Classification`, `Node Detection`, `Feature Inspection`.
