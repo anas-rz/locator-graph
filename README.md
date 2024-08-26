@@ -47,10 +47,10 @@ LocatorGraph based approach
 
 ## Experimental Details
 We use the following libraries to perform our experiments:
-- **sklearn**
-- **transformers**
-- **keras**
-- **torch-geometric**
+- `sklearn`
+- `transformers`
+- `keras`
+- `torch-geometric`
 
 ## Setup
 Experiments have been performed in notebooks on Google Colab and the High-Performance Cluster at Oakland University.
