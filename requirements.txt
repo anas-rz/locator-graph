@@ -4,3 +4,5 @@ scikit-learn
 torch
 torch-geometric
 tqdm
+transformers
+tokenizers
