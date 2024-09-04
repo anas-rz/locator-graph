@@ -101,7 +101,10 @@ python locator_graph/bug_identification.py --dataset_path /path_to/dataset.csv -
 
 ### Node Detection
 This task aims to identify faulty nodes within the trace graphs of SBMs. The following notebook contains details and results of this task:
-- [Node Detection Notebook](./locator_graph/node_classification.ipynb)
+```
+python locator_graph/node_classification.py --help
+python locator_graph/node_classification.py --input_csv /path_to/dataset.csv --base_dir /base/dir
+```
 
 ### Feature Inspection
 In this final task, the goal is to locate bug-causing features within the identified faulty nodes. More details can be found in the following notebook:
