@@ -198,4 +198,4 @@ for i in {1..3}; do
     echo "------------------------------"  # Visual separator for clarity
 done
 ```
-5) To perform statistical analysis and killablity check use code in `thresholding.py`.
+5) To perform statistical analysis and killablity check use code in `thresholding.py`. In `thresholding.py`, you can change the criteria. E.g. for regression models use `loss` instead of accuracy. Compare with `val_accuracy` and find killability score.
