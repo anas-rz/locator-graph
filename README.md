@@ -108,7 +108,11 @@ python locator_graph/node_classification.py --input_csv /path_to/dataset.csv --b
 
 ### Feature Inspection
 In this final task, the goal is to locate bug-causing features within the identified faulty nodes. More details can be found in the following notebook:
-- [Feature Inspection Notebook](./locator_graph/feature_inspector.ipynb)
+```
+python locator_graph/feature_inspector.py --help
+python locator_graph/feature_inspector.py --input_file /path_to/dataset.csv
+```
+The input file for feature inspector has been manually generated using a script to collect all features from the faulty layers in the model code files.
 
 ## Fault Injector
 Based on [**DeepCrime**](https://github.com/dlfaults/deepcrime), we developed a [**Fault Injector**](./locator_graph/fault_injector/) specifically designed for Sequence-Based Models. This tool enables the introduction of bugs into SBMs to test the effectiveness of fault localization techniques.
