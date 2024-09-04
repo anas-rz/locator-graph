@@ -53,16 +53,51 @@ We use the following libraries to perform our experiments:
 - `torch-geometric`
 
 ## Setup
-Experiments have been performed in notebooks on Google Colab and the High-Performance Cluster at Oakland University.
+Before you begin, ensure that you have the following software installed on your system:
 
-To explore our experimentation, please check out the notebooks provided in this repository.
+- Conda: This project uses Conda to manage the Python environment and dependencies. Conda simplifies package management and deployment, making it easier to create isolated environments for different projects.
+- Python 3.8 or later: The project is developed and tested using Python 3.8. While it may work with other versions, using the specified version is highly recommended to avoid compatibility issues.
+
+### Create a Conda Environment
+
+To ensure that all dependencies are properly managed and isolated, we will create a new Conda environment for the project. This environment will include Python and all necessary libraries required to run the code.
+
+Run the following command to create a Conda environment:
+
+`conda create --name yourenvname python=3.8`
+
+Replace yourenvname with a name of your choice for the environment. You can use a name that reflects the project or purpose, such as `fault_localization_env`.
+
+Once the environment is created, activate it using the following command:
+
+```
+conda activate yourenvname
+```
+
+With the Conda environment activated, you can now install the project's dependencies. We use pip for package management, and all required packages are listed in the requirements.txt file.
+
+To install the dependencies, run:
+
+```
+pip install -r requirements.txt
+```
+
+To verify package installation use:
+```
+pip list
+```
+
+With everything set up, you are now ready to run the project. Depending on the project structure, you may need to run a specific script or start a service.
 
 ## Training
 Our model has been trained for three tasks:
 
-### Binary Classification
-The task of binary classification is focused on detecting whether a sequence-based model is buggy or not. You can explore the details of this task in the following notebook:
-- [Binary Classification Notebook](./locator_graph/binary_notebook.ipynb)
+### Bug Identification
+The task of binary classification is focused on detecting whether a sequence-based model is buggy or not. With everything set up, you are now ready to run the binary classification task. 
+```
+python locator_graph/bug_identification.py --help
+python locator_graph/bug_identification.py --dataset_path /path_to/dataset.csv --base_dir /base/dir --epochs 200 --test_size 0.25 --val_size 0.1
+```
 
 ### Node Detection
 This task aims to identify faulty nodes within the trace graphs of SBMs. The following notebook contains details and results of this task:
