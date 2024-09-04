@@ -178,11 +178,19 @@ def LSTM1(depth=5, bidirectional=False,
 
     return regressor, history
 ```
-3) Add imports for the universal closed function such as LSTM1 in `models.py`
-4) Run `script.py` with operator name and and values.
-`python script.py --model 'GRU7' --operator 'recurrent_activation' --logs_dir './'`
+3) Add imports for the universal closed function such as LSTM1 in `model.py` such as follows. You also need to update `MODEL_TYPES` dictionary
 
-To run operator multiple times we use this shell script:
+```
+from LSTM1 import LSTM1
+
+MODEL_TYPES = {
+                "LSTM1": LSTM1}
+```
+Viola! the model will work with all operators 
+4) Run `script.py` with the operator name and and values.
+`python script.py --model 'LSTM1' --operator 'recurrent_activation' --logs_dir './'`
+
+To run the operator multiple times we use this shell script:
 ```sh
 for i in {1..3}; do
     echo "Running iteration $i..."
@@ -190,3 +198,4 @@ for i in {1..3}; do
     echo "------------------------------"  # Visual separator for clarity
 done
 ```
+5) To perform statistical analysis and killablity check use code in `thresholding.py`.
