@@ -11,14 +11,13 @@ from sklearn.model_selection import train_test_split
 
 from sklearn.metrics import f1_score
 
+import torch.nn.functional as F
+from torch_geometric.nn import TAGConv, global_mean_pool
 
-base_dir = "/content/drive/MyDrive/fault_loc_dataset/"
-df = pd.read_csv('/content/drive/MyDrive/fault_loc_dataset/fault_loc_dataset.csv')
-df['full_path'] = base_dir + df['Filename']
-all_buggy_files = df[df['buggy'] == True]['full_path'].tolist()
-all_right_models = df[df['buggy'] == False]['full_path'].tolist()
-print(f"Number of correct models: {len(all_right_models)}")
-print(f"Number of buggy models: {len(all_buggy_files)}")
+import argparse
+
+
+
 def balance_dataset(graphs, labels):
     """
     Balances the dataset by oversampling the minority class or undersampling the majority class.
@@ -274,52 +273,6 @@ for node in builder.graph:
     print(node)
 
 
-print("Converting all Codes to Graphs using AST:")
-# all_right_graphs = []
-# all_right_labels = []
-# for path in tqdm(all_right_models):
-#     with open(path, 'r') as file:
-#         content = file.read()
-#     try:
-#         # Parse the code
-#         tree = ast.parse(content)
-
-#         # Build the graph
-#         builder = ModelGraphBuilder()
-#         builder.visit(tree)
-#         all_right_graphs.append(builder.graph)
-#         all_right_labels.append(0)
-#     except Exception as e:
-#         pass
-
-all_fault_graphs = []
-all_fault_labels = []
-for path in tqdm(all_buggy_files):
-    try:
-        with open(path, 'r') as file:
-            content = file.read()
-        label = path.split('/')[-1].split('.')[0].split('_')[1]
-        label = 'b1' if label in ['b13', 'b14', 'b15', 'b16', 'b17', 'b18', 'b19'] else label
-        label = label.replace('b', '')
-        label = int(label)
-    
-        # Parse the code
-        tree = ast.parse(content)
-
-        # Build the graph
-        builder = ModelGraphBuilder()
-        builder.visit(tree)
-        all_fault_graphs.append(builder.graph)
-        all_fault_labels.append(label)
-
-    except Exception as e:
-        pass
-
-all_graphs =  all_fault_graphs  
-all_labels =  all_fault_labels 
-
-balanced_graphs, balanced_labels = balance_dataset(all_graphs, all_labels)
-
 def train_model(model, data, epochs=200, lr=0.01, weight_decay=5e-4):
     """
     Trains the GNN model on the given graph data.
@@ -369,29 +322,6 @@ def test_model(model, data):
     
     return accuracy, f1
 
-
-possible_activations = [ None,
-    'relu', 'sigmoid', 'tanh', 'softmax', 'softplus', 'softsign',
-    'selu', 'elu', 'exponential', 'linear', 'None',
- 'gelu', 'selu', 'softmax', 'softplus', 'softsign',               'leaky_relu', 'silu', 'hard_silu', 'mish',
-                         'hard_sigmoid', 'relu6'
-]
-possible_regularizers = [None, 'l1_0.2', 'l1_0.3', 'l1_0.4', 'l1_0.5', 'l1_0.6', 'l1_0.7', 'l1_0.8', 'l1_0.9',
-                         'l1_l2_0.2', 'l1_l2_0.3', 'l1_l2_0.4', 'l1_l2_0.5', 'l1_l2_0.6', 'l1_l2_0.7', 'l1_l2_0.8',
-                         'l2_0.2', 'l2_0.3', 'l2_0.4', 'l2_0.5', 'l2_0.6', 'l2_0.7', 'l2_0.8', 'l2_0.9']
-batch = preprocess_graphs(balanced_graphs, balanced_labels, possible_activations, possible_regularizers)
-
-train_data, test_data = train_test_split(batch, test_size=0.25)
-val_data, test_data = train_test_split(test_data, test_size=0.1)
-
-train_batch = Batch.from_data_list(train_data)
-val_batch = Batch.from_data_list(val_data)
-test_batch = Batch.from_data_list(test_data)
-
-import torch
-import torch.nn.functional as F
-from torch_geometric.nn import TAGConv, global_mean_pool
-
 class GNN(torch.nn.Module):
     def __init__(self, num_node_features):
         super(GNN, self).__init__()
@@ -418,13 +348,88 @@ class GNN(torch.nn.Module):
 
         return F.log_softmax(x, dim=1)
 
-num_node_features = batch.num_node_features
-model = GNN(num_node_features)
+def main(base_dir, file_path):
+    df = pd.read_csv(file_path)
+    df['full_path'] = base_dir + df['Filename']
+    all_buggy_files = df[df['buggy'] == True]['full_path'].tolist()
+    all_right_models = df[df['buggy'] == False]['full_path'].tolist()
+    print(f"Number of correct models: {len(all_right_models)}")
+    print(f"Number of buggy models: {len(all_buggy_files)}")
+    print("Converting all Codes to Graphs using AST:")
 
-train_model(model, train_batch, 1000)
 
-accuracy, f1 = test_model(model, val_batch)
-print(f'Val Accuracy: {accuracy:.4f}, F1 Score: {f1:.4f}')
+    all_fault_graphs = []
+    all_fault_labels = []
+    for path in tqdm(all_buggy_files):
+        try:
+            with open(path, 'r') as file:
+                content = file.read()
+            label = path.split('/')[-1].split('.')[0].split('_')[1]
+            label = 'b1' if label in ['b13', 'b14', 'b15', 'b16', 'b17', 'b18', 'b19'] else label
+            label = label.replace('b', '')
+            label = int(label)
+        
+            # Parse the code
+            tree = ast.parse(content)
 
-accuracy, f1 = test_model(model, test_batch)
-print(f'Test Accuracy: {accuracy:.4f}, F1 Score: {f1:.4f}')
+            # Build the graph
+            builder = ModelGraphBuilder()
+            builder.visit(tree)
+            all_fault_graphs.append(builder.graph)
+            all_fault_labels.append(label)
+
+        except Exception as e:
+            pass
+
+    all_graphs =  all_fault_graphs  
+    all_labels =  all_fault_labels 
+
+    balanced_graphs, balanced_labels = balance_dataset(all_graphs, all_labels)
+
+
+
+    possible_activations = [ None,
+        'relu', 'sigmoid', 'tanh', 'softmax', 'softplus', 'softsign',
+        'selu', 'elu', 'exponential', 'linear', 'None',
+    'gelu', 'selu', 'softmax', 'softplus', 'softsign',               'leaky_relu', 'silu', 'hard_silu', 'mish',
+                            'hard_sigmoid', 'relu6'
+    ]
+    possible_regularizers = [None, 'l1_0.2', 'l1_0.3', 'l1_0.4', 'l1_0.5', 'l1_0.6', 'l1_0.7', 'l1_0.8', 'l1_0.9',
+                            'l1_l2_0.2', 'l1_l2_0.3', 'l1_l2_0.4', 'l1_l2_0.5', 'l1_l2_0.6', 'l1_l2_0.7', 'l1_l2_0.8',
+                            'l2_0.2', 'l2_0.3', 'l2_0.4', 'l2_0.5', 'l2_0.6', 'l2_0.7', 'l2_0.8', 'l2_0.9']
+    batch = preprocess_graphs(balanced_graphs, balanced_labels, possible_activations, possible_regularizers)
+    num_node_features = batch.num_node_features
+    train_data, test_data = train_test_split(batch, test_size=0.25)
+    val_data, test_data = train_test_split(test_data, test_size=0.1)
+
+    train_batch = Batch.from_data_list(train_data)
+    val_batch = Batch.from_data_list(val_data)
+    test_batch = Batch.from_data_list(test_data)
+
+
+    model = GNN(num_node_features)
+
+    train_model(model, train_batch, 1000)
+
+    accuracy, f1 = test_model(model, val_batch)
+    print(f'Val Accuracy: {accuracy:.4f}, F1 Score: {f1:.4f}')
+
+    accuracy, f1 = test_model(model, test_batch)
+    print(f'Test Accuracy: {accuracy:.4f}, F1 Score: {f1:.4f}')
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Script for loading fault localization dataset")
+
+    # Add arguments
+    parser.add_argument('--base_dir', type=str, default="/content/drive/MyDrive/fault_loc_dataset/",
+                        help="Base directory for the dataset")
+    parser.add_argument('--csv_file', type=str, default="/content/drive/MyDrive/fault_loc_dataset/fault_loc_dataset.csv",
+                        help="Path to the CSV file")
+
+    # Parse arguments
+    args = parser.parse_args()
+
+    # Call main function
+    main(args.base_dir, args.csv_file)
+    
