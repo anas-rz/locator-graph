@@ -348,7 +348,7 @@ class GNN(torch.nn.Module):
 
         return F.log_softmax(x, dim=1)
 
-def main(base_dir, file_path):
+def main(base_dir, file_path, epochs=1000):
     df = pd.read_csv(file_path)
     df['full_path'] = base_dir + df['Filename']
     all_buggy_files = df[df['buggy'] == True]['full_path'].tolist()
@@ -426,10 +426,12 @@ if __name__ == "__main__":
                         help="Base directory for the dataset")
     parser.add_argument('--csv_file', type=str, default="/content/drive/MyDrive/fault_loc_dataset/fault_loc_dataset.csv",
                         help="Path to the CSV file")
+    parser.add_argument('--epochs', type=int, default=1000,
+                        help="Number of epochs for training")
 
     # Parse arguments
     args = parser.parse_args()
 
     # Call main function
-    main(args.base_dir, args.csv_file)
+    main(args.base_dir, args.csv_file, epochs=args.epochs)
     
