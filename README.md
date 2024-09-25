@@ -1,7 +1,6 @@
 # LocatorGraph: Fault Localization in Sequence-Based Models using Graph Neural Networks
 
 ## Table of Contents
-- [Abstract](#abstract)
 - [Experimental Details](#experimental-details)
 - [Setup](#setup)
 - [Training](#training)
@@ -12,35 +11,6 @@
 - [Citation](#citation)
 - [License](#license)
 
-## Abstract
-Deep learning models, particularly Sequence-based models (SBMs)
-like Recurrent Neural Networks (RNNs), Long Short Term Memory Networks
-(LSTMs), Gated Recurrent Units (GRU), Transformer, and patch-based archi-
-tectures are crucial for intelligent software systems. However, like any software
-application, SBMs applications are susceptible to bugs. Bug-fix patterns in
-SBMs differ from traditional techniques, primarily due to their inherent black
-box, data-driven nature, and sequential dependencies. Moreover, current meth-
-ods, although tailored for generic deep neural network (DNN) structures, are
-manual, require specialized expertise, and are not directly applicable to the
-unique structure and requirements of SBMs. To address these issues, we pro-
-pose LocatorGraph, a novel graph neural network-based framework to identify
-the root causes of faults in SBMs.
-To figure out failure modes for SBMs, we systematically study the extant
-bugs by manually analyzing publicly available StackOverflow issues and also
-expand by generating synthetic bugs by making mutations that cause statis-
-tically significant performance failure modes.
-To detect and localize bugs, we convert SBM code to a trace graph which is
-then fed to LocatorGraph, employing a graph neural network model to detect
-and localize bugs. Beyond mere identification, LocatorGraph locates faulty fea-
-tures in the tracegraphs after which the bug-causing faulty nodes are located.
-Through an evaluation of 152 diverse models including generated buggy mod-
-els, LocatorGraph outperforms existing methods in fault localization, showing
-robustness in identifying potential problems with an AUC of 89.15% and F1 
-score of 80.92%. On Graph-Based Fault Inspection, LG gives an accuracy of
-90.57% and an F1-score of 89.61%. In the final phase, LG outperforms all base-
-lines in locating bug-causing nodes in the nodes with an accuracy of 80.96%
-and an F1 score of 79.33%. We also provide details of the improvement ob-
-served in the models after fixing bugs using LocatorGraph-based approach.
 
 ## Experimental Details
 We use the following libraries to perform our experiments:
